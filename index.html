@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <title>My first Three.js app</title>
+    <style>
+    body {
+        margin: 0;
+    }
+    
+    canvas {
+        width: 100%;
+        height: 100%
+    }
+    </style>
+</head>
+
+<body>
+    <script src="js/three.min.js"></script>
+    <script>
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    var axisHelper = new THREE.AxisHelper(5);
+
+
+
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    var geometry = new THREE.TetrahedronGeometry(1, 0);
+    geometry.computeFaceNormals();
+    var dirLight = new THREE.DirectionalLight(0xffffff, 1);
+    var dirLight2 = new THREE.DirectionalLight(0xffffff, 1);
+    var material = new THREE.MeshPhongMaterial({
+        color: 0xff0000,
+        specular: 0xeeeeee,
+        shininess: 80,
+        shading: THREE.FaltShading
+    })
+    var tetrahedron = new THREE.Mesh(geometry, material);
+   
+    scene.add(axisHelper);
+    scene.add(dirLight);
+    // scene.add(dirLight2);
+    scene.add(tetrahedron);
+
+    camera.position.z = 3;
+
+
+
+    var render = function() {
+        requestAnimationFrame(render);
+        dirLight.position.set(-100, -100, 100);
+        dirLight2.position.set(-100, -100, -100);
+        tetrahedron.rotation.x += 0.01;
+        tetrahedron.rotation.y += 0.01;
+        tetrahedron.rotation.z += 0.01;
+
+        renderer.render(scene, camera);
+    };
+
+    render();
+    </script>
+</body>
+
+</html>
